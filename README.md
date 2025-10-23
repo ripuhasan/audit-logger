@@ -30,7 +30,7 @@ Tracks **create, update, delete** events and stores only the **changed fields** 
 Require the package via Composer:
 
 ```bash
-composer require mahedulhasan/audit-logger
+composer require ripuhasan/audit-logger
 ```
 
 > Make sure your `minimum-stability` in `composer.json` allows `dev` packages if needed:
