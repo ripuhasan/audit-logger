@@ -30,7 +30,7 @@ Tracks **create, update, delete** events and stores only the **changed fields** 
 Require the package via Composer:
 
 ```bash
-composer require ripuhasan/audit-logger
+composer require mahedulhasan/audit-logger
 ```
 
 > Make sure your `minimum-stability` in `composer.json` allows `dev` packages if needed:
@@ -53,6 +53,26 @@ php artisan vendor:publish --provider="MahedulHasan\AuditLogger\AuditLoggerServi
 ```
 
 ---
+
+## Development Version (GitHub)
+
+If you want to use the latest development version, install directly from GitHub:
+
+1. Add the VCS repository to your project's composer.json:
+```php
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/ripuhasan/audit-logger"
+    }
+]
+```
+
+2. Require the dev-main branch:
+
+```bash
+composer require mahedulhasan/audit-logger:dev-main
+```
 
 ## Usage
 
