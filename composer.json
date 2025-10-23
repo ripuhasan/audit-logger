@@ -1,0 +1,17 @@
+{
+    "name": "mahedulhasan/audit-logger",
+    "autoload": {
+        "psr-4": {
+            "MahedulHasan\\AuditLogger\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MahedulHasan\\AuditLogger\\AuditLoggerServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
