@@ -1,5 +1,19 @@
 {
     "name": "mahedulhasan/audit-logger",
+    "description": "Laravel Audit Logging Package",
+    "keywords": [
+        "laravel",
+        "audit",
+        "audit-log",
+        "logging",
+        "observer",
+        "model-events",
+        "database",
+        "admin",
+        "tracking",
+        "history"
+    ],
+    "type": "library",
     "autoload": {
         "psr-4": {
             "MahedulHasan\\AuditLogger\\": "src/"
