@@ -1,8 +1,7 @@
 <?php
 
 use MahedulHasan\AuditLogger\Models\AuditLog;
+use MahedulHasan\AuditLogger\Http\Controllers\AuditLogController;
 
-Route::get('audit-logs', function () {
-    $logs = AuditLog::latest()->paginate(20);
-    return view('auditlogger::index', compact('logs'));
-});
+Route::get('/audit-logs', [AuditLogController::class, 'index'])->name('auditlogs.index');
+

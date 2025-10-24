@@ -1,90 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audit Logs</title>
-    <!-- ✅ Bootstrap CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+@extends('layouts.app')
 
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">🕵️ Audit Logs</h2>
+@section('content')
+<div class="container">
+    <h2 class="mb-3">Audit Logs</h2>
 
-    <div class="card shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-striped table-hover align-middle mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>User</th>
-                        <th>Event</th>
-                        <th>Model</th>
-                        <th>Model ID</th>
-                        <th>Changed Fields</th>
-                        <th>IP</th>
-                        <th>Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($logs as $log)
-                        <tr>
-                            <td>{{ $log->id }}</td>
-                            <td>{{ optional($log->user)->name ?? 'System' }}</td>
-                            <td>
-                                @if($log->event === 'created')
-                                    <span class="badge bg-success">Created</span>
-                                @elseif($log->event === 'updated')
-                                    <span class="badge bg-warning text-dark">Updated</span>
-                                @elseif($log->event === 'deleted')
-                                    <span class="badge bg-danger">Deleted</span>
-                                @else
-                                    <span class="badge bg-secondary">{{ ucfirst($log->event) }}</span>
-                                @endif
-                            </td>
-                            <td><code>{{ class_basename($log->model) }}</code></td>
-                            <td>{{ $log->model_id }}</td>
-                            <td>
-                                @php
-                                    $old = $log->old_values ?? [];
-                                    $new = $log->new_values ?? [];
-                                @endphp
-
-                                @if($log->event === 'updated' && !empty($new))
-                                    <ul class="mb-0">
-                                        @foreach($new as $field => $value)
-                                            <li>
-                                                <strong>{{ $field }}</strong>:
-                                                <span class="text-danger">{{ $old[$field] ?? '—' }}</span>
-                                                →
-                                                <span class="text-success">{{ $value }}</span>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                @elseif($log->event === 'created')
-                                    <span class="text-success">New record created</span>
-                                @elseif($log->event === 'deleted')
-                                    <span class="text-danger">Record deleted</span>
-                                @endif
-                            </td>
-                            <td>{{ $log->ip_address }}</td>
-                            <td>{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="text-center text-muted py-3">No audit logs found.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+    <form method="GET" class="row mb-4">
+        <div class="col-md-2">
+            <input type="text" name="user_id" class="form-control" placeholder="User ID" value="{{ request('user_id') }}">
         </div>
-
-        <div class="card-footer text-end">
-            {{ $logs->links('pagination::bootstrap-5') }}
+        <div class="col-md-2">
+            <select name="event" class="form-control">
+                <option value="">Event Type</option>
+                <option value="created" {{ request('event') == 'created' ? 'selected' : '' }}>Created</option>
+                <option value="updated" {{ request('event') == 'updated' ? 'selected' : '' }}>Updated</option>
+                <option value="deleted" {{ request('event') == 'deleted' ? 'selected' : '' }}>Deleted</option>
+            </select>
         </div>
-    </div>
+        <div class="col-md-3">
+            <input type="text" name="model" class="form-control" placeholder="Model name" value="{{ request('model') }}">
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="from" class="form-control" value="{{ request('from') }}">
+        </div>
+        <div class="col-md-2">
+            <input type="date" name="to" class="form-control" value="{{ request('to') }}">
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Event</th>
+                <th>Model</th>
+                <th>Changes</th>
+                <th>IP</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($auditLogs as $log)
+                <tr>
+                    <td>{{ $log->user?->name ?? 'N/A' }}</td>
+                    <td>{{ ucfirst($log->event) }}</td>
+                    <td>{{ $log->model }} (ID: {{ $log->model_id }})</td>
+                    <td>
+                        <strong>Old:</strong> {{ json_encode($log->old_values) }} <br>
+                        <strong>New:</strong> {{ json_encode($log->new_values) }}
+                    </td>
+                    <td>{{ $log->ip_address }}</td>
+                    <td>{{ $log->created_at->format('Y-m-d H:i:s') }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    {{ $auditLogs->withQueryString()->links() }}
 </div>
-
-</body>
-</html>
+@endsection
