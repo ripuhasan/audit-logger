@@ -1,4 +1,4 @@
-@extends('layouts.audit-app')
+@extends('auditlogger::layouts.app')
 
 @section('content')
 <div class="container">
