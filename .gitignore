@@ -1,0 +1,41 @@
+# Composer dependencies
+/vendor/
+/composer.lock
+/composer.phar
+
+# Environment files
+.env
+.env.*
+
+# PHPUnit cache & logs
+.phpunit.result.cache
+/tests/.phpunit.result.cache
+/storage/
+*.log
+
+# Node / Frontend
+/node_modules/
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# IDE & OS files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Cache / Temp files
+*.cache
+*.bak
+*.tmp
+
+# Coverage reports
+/coverage/
+
+# Build or export folders
+/build/
+/dist/
+/public/vendor/
