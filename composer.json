@@ -1,5 +1,6 @@
 {
     "name": "mahedulhasan/audit-logger",
+    "version": "1.0.0",
     "description": "Laravel Audit Logging Package",
     "keywords": [
         "laravel",

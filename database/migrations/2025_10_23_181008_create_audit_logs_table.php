@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('user_id')->nullable();
             $table->string('event');
             $table->string('model')->nullable();
             $table->unsignedBigInteger('model_id')->nullable();
